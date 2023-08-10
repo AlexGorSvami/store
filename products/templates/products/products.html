@@ -15,7 +15,7 @@
             <h1 class="my-4">Store</h1>
             <div class="list-group">
                 {% for category in categories %}
-                    <a href="#" class="list-group-item">{{ category.name }}</a>
+                <a href="#" class="list-group-item">{{ category.name }}</a>
                 {% endfor %}
             </div>
 
@@ -71,7 +71,10 @@
                             <p class="card-text">{{ product.description }}</p>
                         </div>
                         <div class="card-footer text-center">
-                            <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
+                            <a class="btn btn-outline-success" href="{% url 'products:basket_add' product.id %}">
+                                Отправить в корзину
+                            </a>
+
                         </div>
                     </div>
                 </div>
@@ -104,10 +107,3 @@
             <p class="m-0 text-center text-white">Copyright &copy; Store 2022</p>
         </div>
         {% endblock %}
-
-        {%block footer %}
-        <footer class="py-5 bg-dark">
-            <div class="container">
-                <p class="m-0 text-center text-white">Copyright &copy; Store 2022</p>
-            </div>
-            {% endblock %}
