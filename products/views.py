@@ -3,6 +3,7 @@ from django.shortcuts import render
 from products.models import ProductCategory, Product, Basket
 from django.contrib.auth.decorators import login_required
 
+
 # Функции = контроллеры = вьюхи
 
 def index(request):
@@ -12,13 +13,15 @@ def index(request):
     return render(request, 'products/index.html', content)
 
 
-def products(request):
+def products(request, category_id=None):
     content = {
         'title': 'Store - каталог',
-        'products': Product.objects.all(),
         'categories': ProductCategory.objects.all(),
+        'products': Product.objects.filter(category_id=category_id) if category_id else Product.objects.all()
     }
+
     return render(request, 'products/products.html', content)
+
 
 @login_required
 def basket_add(request, product_id):
@@ -33,6 +36,7 @@ def basket_add(request, product_id):
         basket.save()
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
 
 @login_required
 def basket_remove(request, basket_id):
