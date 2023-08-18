@@ -3,7 +3,6 @@ from http import HTTPStatus
 from django.test import TestCase
 from django.urls import reverse
 
-from users.models import User
 from products.models import Product, ProductCategory
 
 
@@ -22,12 +21,11 @@ class ProductsListViewTestCase(TestCase):
 
     def setUp(self):
         self.products = Product.objects.all()
-        
+
     def _common_tests(self, response):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context_data['title'], 'Store - каталог')
         self.assertTemplateUsed(response, 'products/products.html')
-        
 
     def test_list(self):
         path = reverse('products:index')
