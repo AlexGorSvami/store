@@ -6,9 +6,9 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 
 from common.views import TitleMixin
-from users.forms import (EmailVerification, UserLoginFrom, UserProfileForm,
+from users.forms import (UserLoginFrom, UserProfileForm,
                          UserRegistrationForm)
-from users.models import User
+from users.models import User, EmailVerification
 
 
 class UserLoginView(TitleMixin, LoginView):
