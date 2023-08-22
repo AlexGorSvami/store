@@ -11,6 +11,8 @@ from django.http import HttpResponse
 from common.views import TitleMixin
 from orders.forms import OrderForm
 from products.models import Basket
+from orders.models import Order
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -74,4 +76,8 @@ def stripe_webhook_view(request):
 
 def fulfill_order(session):
     order_in = int(session.metadata.order_id)
+    order = Order.objects.get(id=order_id)
     print('Fulfilling order')
+
+
+
