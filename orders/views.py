@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic.base import TemplateView
 from django.urls import reverse, reverse_lazy
 from django.conf import settings
+from django.views.generic.list import ListView
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
@@ -12,7 +13,6 @@ from common.views import TitleMixin
 from orders.forms import OrderForm
 from products.models import Basket
 from orders.models import Order
-
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -24,6 +24,17 @@ class SuccessTemplateView(TitleMixin, TemplateView):
 
 class CanceledTemplateView(TemplateView):
     template_name = 'orders/canceled.html'
+
+
+class OrderListView(TitleMixin, ListView):
+    template_name = 'orders/orders.html'
+    title = 'Store - заказы'
+    queryset = Order.objects.all()
+    ordering = ('-id')
+
+    def get_queryset(self):
+        queryset = super(OrderListView, self).get_queryset()
+        return queryset.filter(initiator=self.request.user)
 
 
 class OrderCreateView(TitleMixin, CreateView):
@@ -78,6 +89,3 @@ def fulfill_order(session):
     order_in = int(session.metadata.order_id)
     order = Order.objects.get(id=order_id)
     print('Fulfilling order')
-
-
-
